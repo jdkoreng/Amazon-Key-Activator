@@ -59,6 +59,7 @@ router.post('/', (req, res) => {
                             "email" : req.body.email
                         }}, function() {
                             console.log('Done')
+                            res.send('success');
                         }
                      );
                  } catch (e) {

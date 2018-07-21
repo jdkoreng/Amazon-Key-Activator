@@ -19,7 +19,8 @@ class ActivationFormComponent extends Component {
     }
 
     handleActivationCodeChange(event) {
-        this.setState({activationCode: event.target.value});
+        this.setState({activationCode: event.target.value})
+        console.log(this.state);
     }
 
     handleEmailChange(event) {
@@ -33,6 +34,7 @@ class ActivationFormComponent extends Component {
     handleLastNameChange(event) {
         this.setState({lastName: event.target.value});
     }
+
 
     handleSubmit(event) {
         event.preventDefault();
