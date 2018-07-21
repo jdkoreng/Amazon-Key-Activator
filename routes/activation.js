@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 // const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/keydb');
+
+var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/keydb';
+mongoose.connect(MONGODB_URI);
 
  var EmailThat = function (studentEmail) {
     var email 	= require("emailjs");
@@ -29,7 +31,8 @@ mongoose.connect('mongodb://localhost/keydb');
 //post your code and info
 //checks DB to see if exists, and if it does then do the post route
 // and execute send email function
-router.post('/', (req, res, next) => {
+router.post('/', (req, res) => {
+    console.log('Hi')
     var codes = [];
     mongoose.connection.db.collection('codes').
         find({"key" : req.body.activationCode}).toArray(function(err, results) {
@@ -41,24 +44,32 @@ router.post('/', (req, res, next) => {
                
                 
                 // This is valid, update DB with info if it's not already activated and use send email function.
-               
-                
-                res.status(200).send('That was a good activation key!');
-                EmailThat(codes.email);
+               console.log('Activation Key is Good')
+                EmailThat(req.body.email);
 
                 var yourkey = codes.key;
-                mongoose.connection.db.collection('codes').updateMany(
-                    
-                    { key: {yourkey } },
-                    { $set: { "alreadyUsed" : true } },
-                    { $set: { "firstName" : req.body.firstName } },
-                    { $set: { "lastName" : req.body.lastName } },
-                    { $set: { "email" : req.body.email } }
-                 );
+
+                try {
+                    mongoose.connection.db.collection('codes').updateOne(
+                        { key: yourkey },
+                        { $set: { 
+                            "alreadyUsed" : true,
+                            "firstName" : req.body.firstName,
+                            "lastName" : req.body.lastName,
+                            "email" : req.body.email
+                        }}, function() {
+                            console.log('Done')
+                        }
+                     );
+                 } catch (e) {
+                    console.log(e);
+                    res.status(500).send(e)
+                 }
+
+                
             }
         });
 
-        next();
     })
     
     module.exports = router;

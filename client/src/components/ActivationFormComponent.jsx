@@ -37,7 +37,7 @@ class ActivationFormComponent extends Component {
     handleSubmit(event) {
         event.preventDefault();
         // Do a post request to the route with params.
-        axios.post('http://localhost:3001/activate', this.state)
+        axios.post('/activate', this.state)
           .then(function (response) {
             console.log(response);
           })

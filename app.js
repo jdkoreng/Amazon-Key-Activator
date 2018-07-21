@@ -3,9 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-
 var activationRouter = require('./routes/activation');
+const PORT = process.env.PORT || 3001;
+
 var app = express();
 
 // view engine setup
@@ -35,5 +35,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(PORT, () => console.log('Express Server is listening on port ' + PORT ))
 
 module.exports = app;
