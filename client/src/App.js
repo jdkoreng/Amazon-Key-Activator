@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './App.css';
 import ActivationFormComponent from './components/ActivationFormComponent';
+console.log('PROCESS ENV', process.env);
 
 const activationUrl = (process.env.NODE_ENV === 'development')
 ? 'http://localhost:3001/activate'
