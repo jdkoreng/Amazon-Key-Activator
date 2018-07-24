@@ -3,7 +3,10 @@ const router = express.Router();
 // const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 
-var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/keydb';
+//var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/keydb';
+var MONGODB_URI = (process.env.NODE_ENV === 'development')
+? 'mongodb://localhost/keydb'
+: 'mongodb://heroku_qcb3mj90:rdnangs9ecc47drg49vq8k1699@ds147361.mlab.com:47361/heroku_qcb3mj90';
 mongoose.connect(MONGODB_URI);
 
  var EmailThat = function (studentEmail) {
