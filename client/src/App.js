@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 import './App.css';
 import ActivationFormComponent from './components/ActivationFormComponent';
 
+const activationUrl = (process.env.NODE_ENV === 'development')
+? 'http://localhost:3001/activate'
+: 'https://shrouded-journey-16655.herokuapp.com/activate';
+
 class App extends Component {
   render() {
     return (
@@ -17,7 +21,9 @@ class App extends Component {
         <h1 id="search-bikes">Get Started With NeXT Live 365!</h1>
     </div>
         
-    <ActivationFormComponent />
+    <ActivationFormComponent
+      activationUrl={activationUrl}
+    />
 
         <div className="row">
                 <div className="col-md-3 col-sm-12">

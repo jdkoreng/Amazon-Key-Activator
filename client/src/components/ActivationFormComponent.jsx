@@ -35,16 +35,15 @@ class ActivationFormComponent extends Component {
         this.setState({lastName: event.target.value});
     }
 
-
     handleSubmit(event) {
         event.preventDefault();
         // Do a post request to the route with params.
-        axios.post('/activate', this.state)
+        axios.post(this.props.activationUrl, this.state)
           .then(function (response) {
-            console.log(response);
+            alert('Successfully registered the activation key.\nPlease check your email.');
           })
           .catch(function (error) {
-            console.log(error);
+            alert('Could not register the activation key.\nPlease check it is valid or not already taken.');
           });
     }
 

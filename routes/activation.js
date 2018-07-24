@@ -32,22 +32,17 @@ mongoose.connect(MONGODB_URI);
 //checks DB to see if exists, and if it does then do the post route
 // and execute send email function
 router.post('/', (req, res) => {
-    console.log('Hi')
     var codes = [];
     mongoose.connection.db.collection('codes').
         find({"key" : req.body.activationCode}).toArray(function(err, results) {
             codes = results;
-            if ((codes.length === 0) || (codes.alreadyUsed===true))  {
+            if ((codes.length === 0) || (codes[0].alreadyUsed === true))  {
                 // This is invalid
-                res.status(400).send('That was not a valid activation key or has already been activated!');
+                res.status(400).send({ message: 'That was not a valid activation key or has already been activated!' });
             } else {
-               
-                
                 // This is valid, update DB with info if it's not already activated and use send email function.
-               console.log('Activation Key is Good')
                 EmailThat(req.body.email);
-
-                var yourkey = codes.key;
+                var yourkey = codes[0].key;
 
                 try {
                     mongoose.connection.db.collection('codes').updateOne(
@@ -58,12 +53,10 @@ router.post('/', (req, res) => {
                             "lastName" : req.body.lastName,
                             "email" : req.body.email
                         }}, function() {
-                            console.log('Done')
-                            res.send('success');
+                            res.send({ message: 'Successfully registered the activation key!' });
                         }
                      );
                  } catch (e) {
-                    console.log(e);
                     res.status(500).send(e)
                  }
 
