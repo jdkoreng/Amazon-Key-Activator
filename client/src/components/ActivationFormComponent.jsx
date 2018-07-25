@@ -38,7 +38,7 @@ class ActivationFormComponent extends Component {
     handleSubmit(event) {
         event.preventDefault();
         // Do a post request to the route with params.
-        axios.post(this.props.activationUrl, this.state)
+        axios.post('/activate', this.state)
           .then(function (response) {
             alert('Successfully registered the activation key.\nPlease check your email.');
           })
@@ -76,7 +76,6 @@ class ActivationFormComponent extends Component {
                         onChange={this.handleLastNameChange}
                     />
                     <input
-                        for="location-search"
                         type="submit"
                         value="Submit"
                     />
